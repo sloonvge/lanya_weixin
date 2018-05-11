@@ -1,0 +1,158 @@
+/* pages/bluetooth/bluetooth.wxss */
+page {
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-image:url('https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-642542.png'); 
+  margin: 0px; 
+  background-size: cover; 
+}
+.blue {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background-size: 100%;
+  padding: 20rpx;
+}
+
+
+.head {
+  width: 100%;
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5rpx;
+}
+.head #name {
+  font-size:x-large;
+  color: #000;
+  word-break:break-all;
+}
+.head text {
+  margin-top:6rpx;
+  font-size:small;
+  color:#000;
+  word-break:break-all;
+}
+
+
+.weather_block {
+  width: 750rpx;
+  height: 500rpx;
+}
+.weather{
+  margin: 20rpx;
+  border: 1rpx solid lightgrey;
+  background-attachment: local;
+  background: rgba(0, 0, 0, 0.4)
+}
+.top {
+  padding-top: 15rpx;
+  flex-direction: row;
+}
+.top view {
+  color: #fff;
+  text-align: right;
+  font-size: 30rpx;
+  margin-bottom: 10rpx;
+}
+
+
+.topRegion {
+  height:160rpx;
+  vertical-align: bottom;
+}
+.topRegion #temperature {
+  color: #fff;
+  float: left;
+  font-size: 120rpx;
+}
+.topRegion #summary {
+  color: #fff;
+  margin-left: 30rpx;
+  margin-top: 55rpx;
+  font-size: 50rpx;
+  float: left;    
+}
+
+
+
+.curExtern{  
+  margin: 15rpx;
+  display: flex;  
+  flex-direction: row;/*横向*/  
+  justify-content: space-around;  
+  color: #fff;  
+}  
+.val{  
+  text-align: center;  
+  font-size: 1.2rem;  
+}  
+.line{  
+  border:0.9rpx solid lightblue;  
+}  
+
+
+.operation{
+  margin: 75rpx auto;
+  position: relative;
+  width: 750rpx;
+  height: 400rpx;
+  border-radius: 50%;
+  background-color: #415cab;
+}
+.circle{
+  position: relative;
+  width: 450rpx;
+  height: 450rpx;
+  border-radius: 50%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: #fff;
+}
+.menu-list{
+  position: relative;
+}
+.menu-item{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font-weight: 500;
+  background-color: #FFC0CB;
+}
+.item{
+  -webkit-transform-origin: 50% 200rpx;
+  transform-origin: 50% 200rpx;
+  margin: 0 auto;
+  margin-top: 30rpx;
+  position: relative;
+  height: 120rpx;
+  width: 120rpx;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 50%;
+}
+.image-style {
+  height: 120rpx;
+  width: 120rpx;
+  color: #f00;
+}
+.item-text{
+  -webkit-transform-origin: 50% 90rpx;
+  transform-origin: 50% 90rpx;
+  margin: 0 auto;
+  position: relative;
+  height: 50rpx;
+  width: auto;
+  text-align: center;
+}
+.text{
+  margin: 5rpx auto;
+  font-size: 30rpx;
+  color: #1E90FF;
+}

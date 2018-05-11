@@ -1,0 +1,86 @@
+/**index.wxss**/
+view {
+  display: inline-block;
+}
+
+.container {
+  padding: 0;
+  margin: 0;
+  align-items: flex-start;
+}
+
+
+.sectionfirst {
+  padding-top: 12rpx;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  padding-bottom: 12rpx;
+  border-top: 1rpx solid lightgrey;
+  border-bottom: 1rpx solid lightgrey;
+}
+
+
+
+.switch {
+  position: relative;
+  float: right;
+  right: 0rpx;
+}
+
+button {
+  background: red\;
+}
+
+.sectiontwo {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  margin-bottom: 1rpx;
+  border-bottom: 1rpx solid lightgrey;
+}
+
+.section {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+}
+
+.list-item {
+  margin-top: 1rpx;
+  margin-bottom: 1rpx; 
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid lightgray; 
+}
+.ble_pic {
+  height: 90rpx;
+  width: 90rpx;
+}
+.ble_pic image{
+  height: 60rpx;
+  width: 60rpx;
+  padding: 15rpx;
+}
+.ble_name {
+  height: 90rpx;
+  width: 500rpx;
+}
+.name{
+  margin-top: 15rpx;
+  margin-bottom: 15rpx;
+}
+.ble_button {
+  height: 90rpx;
+}
+.ble_button button{
+  margin-top: 15rpx;
+  margin-bottom: 15rpx;
+}
+
+
+.deviceconnected{
+  background-color: chartreuse;
+}
+

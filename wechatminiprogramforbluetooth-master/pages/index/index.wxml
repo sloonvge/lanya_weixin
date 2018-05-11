@@ -1,0 +1,31 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="sectionfirst">
+    <view class="content">
+      <text>蓝牙初始化：</text>
+      <text>{{isbluetoothready?"OK":"尚未初始化"}}</text>
+    </view>
+    <view class="switch">
+      <switch checked="{{isbluetoothready}}" bindchange="switchBlueTooth" />
+    </view>
+  </view> 
+  <view class="sectiontwo" hidden="{{!isbluetoothready}}">
+    <button type="default" loading="{{searchingstatus}}" bindtap="searchbluetooth">{{searchingstatus?"搜索中":"搜索蓝牙"}}</button>
+  </view>
+  <block wx:for="{{devices}}">
+    <view class="section" hidden="{{!isbluetoothready}}">
+      <view class="list-item {{item.deviceId==connectedDeviceId?'deviceconnected':''}}">
+        <view class="ble_pic">
+          <image src="../../images/ble.jpg"></image>
+        </view>
+        <view class="ble_name">
+          <view class="name">{{item.name=="未知"?item.devicedId:item.name}}</view>
+        </view>
+        <view class="ble_button">
+          <button id="{{item.deviceId}}" type="default" size="mini" bindtap="connectTO">{{item.deviceId==connectedDeviceId?"已连接":"连接"}}
+          </button>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

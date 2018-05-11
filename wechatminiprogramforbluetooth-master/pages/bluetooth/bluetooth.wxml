@@ -1,0 +1,54 @@
+<!--pages/bluetooth/bluetooth.wxml-->
+<view calss="blue">
+  <view class="head">
+    <text id="name">设备名称: {{name}}</text>
+    <text>设备ID: {{connectedDeviceId}}</text>
+    <text>广播数据: {{advertisData}}</text>
+  </view>
+  <view class="weather_block">
+    <view class="weather">
+      <view calss="curWeather">
+        <view class="top">
+          <view>{{city.location}}</view>
+          <view>{{forecast[0].date}}</view>
+          <view>{{update}} 更新</view>
+        </view>
+      </view>
+      <view class="topRegion">
+        <view id="temperature" >{{now.tmp}}℃</view>
+        <view id="summary" >{{now.cond_txt}} | {{lifestyle[0].brf}}</view>
+      </view>
+      <view class="curExtern">  
+        <view class="wind">  
+          <view class="">{{now.wind_dir}}</view>  
+          <view wx:if="{{now.wind_sc <= 2}}" class="val">{{"<="}}2级</view>  
+          <view wx:else class="val">{{now.wind_sc}}级</view>  
+        </view>  
+        <view class="line"></view>  
+        <view class="relWet">  
+          <view class="">相对湿度</view>  
+          <view class="val">{{now.hum}}%</view>  
+        </view>  
+        <view class="line"></view>  
+        <view class="humanTmp">  
+          <view class="">体感温度</view>  
+          <view class="val">{{now.fl}}°</view>  
+        </view>   
+      </view> 
+    </view> 
+  </view>
+  <view calss="operation">
+    <view class="circle">
+      <view class="menu-list">
+        <view class="menu-item" wx:for="{{menu}}" wx:key="unique">
+          <view data-id="{{item.value}}" bindtap="formSubmit" class="item" style="-webkit-transform: rotate({{item.deg}}deg);">
+            <image class="image-style" src="{{item.src}}"></image>
+          </view>
+          <view class="item-text" style="-webkit-transform: rotate({{item.deg}}deg);">
+            <text class="text">{{item.item}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
