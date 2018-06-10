@@ -19,10 +19,10 @@
           <image src="../../images/ble.jpg"></image>
         </view>
         <view class="ble_name">
-          <view class="name">{{item.name=="未知"?item.devicedId:item.name}}</view>
+          <view class="name">{{item.name=="未知"?item.deviceId:item.name}}</view>
         </view>
         <view class="ble_button">
-          <button id="{{item.deviceId}}" type="default" size="mini" bindtap="connectTO">{{item.deviceId==connectedDeviceId?"已连接":"连接"}}
+          <button id="{{item.deviceId}}" type="{{item.deviceId==connectedDeviceId?'primary':'default'}}" size="mini" bindtap="connectTO">{{item.deviceId==connectedDeviceId?"已连接":"连接"}}
           </button>
         </view>
       </view>

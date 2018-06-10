@@ -80,7 +80,7 @@ button {
 }
 
 
-.deviceconnected{
+.deviceconnected .ble_button .button{
   background-color: chartreuse;
 }
 

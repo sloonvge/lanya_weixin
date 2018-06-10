@@ -50,163 +50,86 @@ Page({
     console.log('connectedDeviceId: ' + options.connectedDeviceId)
     console.log('name: ' + options.name)
     console.log('advertisData: ' + options.advertisData)
-    this.setData({
+    that.setData({
       deviceconnected: true,
       connectedDeviceId: options.connectedDeviceId,
       name: options.name,
       advertisData: options.advertisData
     })
-    wx.getBLEDeviceServices({
-      deviceId: connectedDeviceId,
-      success: function (res) {
-        console.log('device services:', res.services)
-        that.setData({ serviceIds: res.services })
-        console.log('services:', res.services)
-        console.log('device services:', that.data.serviceIds[1].uuid)
-        that.setData({ serviceId: that.data.serviceIds[1].uuid })
-        console.log('--------------------------------------')
-        console.log('device设备的id:', that.data.connectedDeviceId)
-        console.log('device设备的服务id:', that.data.serviceId)
-
-        wx.getBLEDeviceCharacteristics({
-          deviceId: that.data.connectedDeviceId,
-          serviceId: that.data.serviceId,
-          success: function (res) {
-            console.log('000000000000:' + that.data.serviceId)
-            console.log('device getBLEDeviceCharacteristics:', res.characteristics)
-            if (res.characteristics[0].uuid.indexOf("FFE1") != -1) {
-              that.setData({
-                cdE1: res.characteristics[0].uuid,
-                characteristicsE1: res.characteristics[0]
-              })
+      wx.getBLEDeviceServices({
+        deviceId: connectedDeviceId,
+        success: function (res) {
+          console.log('device services:', res.services)
+          that.setData({ serviceIds: res.services })
+          for (var i = 0; i < that.data.serviceIds.length; i++){
+            if (that.data.serviceIds[i].uuid.indexOf("FFE0") != -1) {
+              that.setData({ serviceId: that.data.serviceIds[i].uuid })
             }
-            /**
-            for (var i = 0; i < 1; i++) {
-              if (res.characteristics[i].uuid.indexOf("FFE1") != -1) {
-                that.setData({
-                  cdE1: res.characteristics[i].uuid,
-                  characteristicsE1: res.characteristics[i]
-                })
-              }
-              if (res.characteristics[i].uuid.indexOf("2A01") != -1) {
-                that.setData({
-                  cd01: res.characteristics[i].uuid,
-                  characteristics01: res.characteristics[i]
-                })
-              }
-              if (res.characteristics[i].uuid.indexOf("2A02") != -1) {
-                that.setData({
-                  cd02: res.characteristics[i].uuid,
-                  characteristics02: res.characteristics[i]
-                })
-              } if (res.characteristics[i].uuid.indexOf("2A03") != -1) {
-                that.setData({
-                  cd03: res.characteristics[i].uuid,
-                  characteristics03: res.characteristics[i]
-                })
-              }
-              if (res.characteristics[i].uuid.indexOf("2A04") != -1) {
-                that.setData({
-                  cd04: res.characteristics[i].uuid,
-                  characteristics04: res.characteristics[i]
-                })
-              }  
-            }
-            */
-            console.log('cdE1=', that.data.cdE1)
-            //console.log('cd01= ' + that.data.cd01 + 'cd02= ' + that.data.cd02 + 'cd03= ' + that.data.cd03 + 'cd04= ' + that.data.cd04 + 'cdE1= ' + that.data.cdE1)
-            /**
-             * 回调获取 设备发过来的数据
-             */
-            wx.onBLECharacteristicValueChange(function (characteristic) {
-              console.log('characteristic value comed:', characteristic)
-              //{value: ArrayBuffer, deviceId: "3C:A3:08:95:D0:4B", serviceId: "0000FFE0-0000-1000-8000-00805F9B34FB", characteristicId: "0000FFE1-0000-1000-8000-00805F9B34FB"}
-              /**
-              监听cdE1中的结果
-              if (characteristic.characteristicId.indexOf("FFE1") != -1) {
-                const result = characteristic.value
-                const hex = that.buf2hex(result)
-                console.log(hex)
-              }
-              */
-              if (characteristic.characteristicId.indexOf("FFE1") != -1) {
-                const result = characteristic.value
-                const hex = that.buf2hex(result)
-                console.log(hex)
-                that.setData({ result: hex })
-              }
-            })
-            /**
-             * 顺序开发设备特征notifiy
-             */
-            wx.notifyBLECharacteristicValueChange({
-              // 启用 notify 功能
-              // 这里的 deviceId 需要在上面的 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
-              deviceId: that.data.connectedDeviceId,
-              serviceId: that.data.serviceId,
-              characteristicId: that.data.cdE1,
-              state: true,
-              success: function (res) {
-                // success
-                console.log('notifyBLECharacteristicValueChanged success', res)
-              },
-              fail: function (res) {
-                // fail
-              },
-              complete: function (res) {
-                // complete
-              }
-            })
-            /**
-            wx.notifyBLECharacteristicValueChange({
-              deviceId: that.data.connectedDeviceId,
-              serviceId: that.data.serviceId,
-              characteristicId: that.data.cd02,
-              state: true,
-              success: function (res) {
-                // success
-                console.log('notifyBLECharacteristicValueChanged success', res)
-              },
-              fail: function (res) {
-                // fail
-              },
-              complete: function (res) {
-                // complete
-              }
-            })
-            wx.notifyBLECharacteristicValueChange({
-              deviceId: that.data.connectedDeviceId,
-              serviceId: that.data.serviceId,
-              characteristicId: that.data.cd03,
-              state: true,
-              success: function (res) {
-                // success
-                console.log('notifyBLECharacteristicValueChanged success', res)
-              },
-              fail: function (res) {
-                // fail
-              },
-              complete: function (res) {
-                // complete
-              }
-            })
-            wx.notifyBLECharacteristicValueChange({
-              // 启用 notify 功能
-              // 这里的 deviceId 需要在上面的 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
-              deviceId: that.data.connectedDeviceId,
-              serviceId: that.data.serviceId,
-              characteristicId: that.data.cd04,
-              state: true,
-              success: function (res) {
-                console.log('notifyBLECharacteristicValueChanged success', res)
-              }
-            })
-             */
-          },
-          fail: function (res) {
-            console.log(res)
           }
-        })
+          console.log('--------------------------------------')
+          console.log('device设备的id:', that.data.connectedDeviceId)
+          console.log('device设备的服务id:', that.data.serviceId)
+          setTimeout(function () {
+          wx.getBLEDeviceCharacteristics({
+            deviceId: that.data.connectedDeviceId,
+            serviceId: that.data.serviceId,
+            success: function (res) {
+              console.log('device getBLEDeviceCharacteristics:', res.characteristics)
+              if (res.characteristics[0].uuid.indexOf("FFE1") != -1) {
+                that.setData({
+                  cdE1: res.characteristics[0].uuid,
+                  characteristicsE1: res.characteristics[0]
+                })
+              }
+              /**
+              */
+              console.log('cdE1=', that.data.cdE1)
+              //console.log('cd01= ' + that.data.cd01 + 'cd02= ' + that.data.cd02 + 'cd03= ' + that.data.cd03 + 'cd04= ' + that.data.cd04 + 'cdE1= ' + that.data.cdE1)
+              /**
+               * 回调获取 设备发过来的数据
+               */
+              wx.onBLECharacteristicValueChange(function (characteristic) {
+                console.log('characteristic value comed:', characteristic)
+                //{value: ArrayBuffer, deviceId: "3C:A3:08:95:D0:4B", serviceId: "0000FFE0-0000-1000-8000-00805F9B34FB", characteristicId: "0000FFE1-0000-1000-8000-00805F9B34FB"}
+                /**
+                }
+                */
+                if (characteristic.characteristicId.indexOf("FFE1") != -1) {
+                  const result = characteristic.value
+                  const hex = that.buf2hex(result)
+                  console.log(hex)
+                  that.setData({ result: hex })
+                }
+              })
+              /**
+               * 顺序开发设备特征notifiy
+               */
+              wx.notifyBLECharacteristicValueChange({
+                // 启用 notify 功能
+                // 这里的 deviceId 需要在上面的 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
+                deviceId: that.data.connectedDeviceId,
+                serviceId: that.data.serviceId,
+                characteristicId: that.data.cdE1,
+                state: true,
+                success: function (res) {
+                  // success
+                  console.log('notifyBLECharacteristicValueChanged success', res)
+                },
+                fail: function (res) {
+                  // fail
+                },
+                complete: function (res) {
+                  // complete
+                }
+              })
+              /**
+              */
+            },
+            fail: function (res) {
+              console.log(res)
+            }
+          })
+        }, 1500);
       }
     })
     wx.onBluetoothAdapterStateChange(function (res) {

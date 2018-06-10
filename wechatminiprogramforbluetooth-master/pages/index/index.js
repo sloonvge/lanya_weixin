@@ -6,22 +6,13 @@ var temp = []
 var connectedDeviceId
 Page({
   data: {
-    isbluetoothready: true,
+    isbluetoothready: false,
     searchingstatus: false,
     receivedata: '',
     onreceiving: false,
     loading: false,
     deviceconnected: false,
-    devices: [
-      {
-      name:"未知",
-      devicedId: "HW",
-      },
-      {
-        name: "HC",
-        devicedId: "HY",
-      },
-    ]
+    devices: []
   },
   buf2hex: function (buffer) {
     return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
