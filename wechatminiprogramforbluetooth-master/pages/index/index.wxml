@@ -12,7 +12,7 @@
   <view class="sectiontwo" hidden="{{!isbluetoothready}}">
     <button type="default" loading="{{searchingstatus}}" bindtap="searchbluetooth">{{searchingstatus?"搜索中":"搜索蓝牙"}}</button>
   </view>
-  <block wx:for="{{devices}}">
+  <block wx:for="{{devices}}" wx:key="unique">
     <view class="section" hidden="{{!isbluetoothready}}">
       <view class="list-item {{item.deviceId==connectedDeviceId?'deviceconnected':''}}">
         <view class="ble_pic">

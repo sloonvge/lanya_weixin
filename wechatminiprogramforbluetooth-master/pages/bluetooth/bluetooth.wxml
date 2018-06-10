@@ -40,12 +40,36 @@
   <view calss="operation">
     <view class="circle">
       <view class="menu-list">
-        <view class="menu-item" wx:for="{{menu}}" wx:key="unique">
-          <view data-id="{{item.value}}" bindtap="formSubmit" class="item" style="-webkit-transform: rotate({{item.deg}}deg);">
-            <image class="image-style" src="{{item.src}}"></image>
+        <view class="menu-item">
+          <view data-id="90" bindtap="formSubmit" class="item" style="-webkit-transform: rotate(0deg);">
+            <image class="image-style" src="../../images/xuanzhuan.png"></image>
           </view>
-          <view class="item-text" style="-webkit-transform: rotate({{item.deg}}deg);">
-            <text class="text">{{item.item}}</text>
+          <view class="item-text" style="-webkit-transform: rotate(0deg);">
+            <text class="text">浇水</text>
+          </view>
+        </view>
+        <view class="menu-item">
+          <view data-id="70" bindtap="formSubmit1" class="item" style="-webkit-transform: rotate(90deg);">
+            <image class="image-style" src="../../images/xuanzhuan.png"></image>
+          </view>
+          <view class="item-text" style="-webkit-transform: rotate(90deg);">
+            <text class="text">旋转</text>
+          </view>
+        </view>
+        <view class="menu-item">
+          <view data-id="80" bindtap="formSubmit2" class="item" style="-webkit-transform: rotate(180deg);">
+            <image class="image-style" src="../../images/xuanzhuan.png"></image>
+          </view>
+          <view class="item-text" style="-webkit-transform: rotate(180deg);">
+            <text class="text">施肥</text>
+          </view>
+        </view>
+        <view class="menu-item">
+          <view data-id="70" bindtap="formSubmit3" class="item" style="-webkit-transform: rotate(270deg);">
+            <image class="image-style" src="../../images/xuanzhuan.png"></image>
+          </view>
+          <view class="item-text" style="-webkit-transform: rotate(270deg);">
+            <text class="text">旋转</text>
           </view>
         </view>
       </view>
