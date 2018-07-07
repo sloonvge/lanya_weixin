@@ -1,6 +1,7 @@
 /**index.wxss**/
 view {
   display: inline-block;
+  font-family: sans-serif;
 }
 
 .container {
@@ -20,7 +21,10 @@ view {
   border-bottom: 1rpx solid lightgrey;
 }
 
-
+.tip {
+  font-size: 30rpx;
+  font-family: sans-serif;
+}
 
 .switch {
   position: relative;

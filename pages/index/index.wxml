@@ -9,6 +9,11 @@
       <switch checked="{{isbluetoothready}}" bindchange="switchBlueTooth" />
     </view>
   </view> 
+  <view class="tip" hidden="{{isbluetoothready}}">
+    <text>\n 提示：\n \n</text>
+    <text>1. 本程序只适用于安卓手机\n</text>
+    <text>2. 请打开手机蓝牙，部分安卓手机需要打开“定位”功能</text>
+  </view>
   <view class="sectiontwo" hidden="{{!isbluetoothready}}">
     <button type="default" loading="{{searchingstatus}}" bindtap="searchbluetooth">{{searchingstatus?"搜索中":"搜索蓝牙"}}</button>
   </view>
@@ -22,7 +27,7 @@
           <view class="name">{{item.name=="未知"?item.deviceId:item.name}}</view>
         </view>
         <view class="ble_button">
-          <button id="{{item.deviceId}}" type="{{item.deviceId==connectedDeviceId?'primary':'default'}}" size="mini" bindtap="connectTO">{{item.deviceId==connectedDeviceId?"已连接":"连接"}}
+          <button id="{{item.deviceId}}" type="{{item.deviceId==connectedDeviceId?'primary':'default'}}" size="mini" bindtap="connectTo">{{item.deviceId==connectedDeviceId?"已连接":"连接"}}
           </button>
         </view>
       </view>

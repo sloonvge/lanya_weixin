@@ -18,13 +18,10 @@ Page({
     return Array.prototype.map.call(new Uint8Array(buffer), x => ('00' + x.toString(16)).slice(-2)).join('');
   },
   switchBlueTooth: function () {
-
     var that = this
-
     that.setData({
       isbluetoothready: !that.data.isbluetoothready
     })
-
     if (that.data.isbluetoothready) {
       wx.openBluetoothAdapter({//初始化适配器
         success: function (res) {
@@ -37,34 +34,9 @@ Page({
             })
           })
           wx.onBluetoothDeviceFound(function (devices) {
-            var isnotexist = false
-            //Apple
-            if (devices.deviceId) {
-              var i = 0
-              devices.advertisData = that.buf2hex(devices.advertisData)
-              console.log(devices.advertisData)
-              if (devices.advertisData == "") {
-                devices.advertisData = '空'
-              }
-              if (devices.name == "") {
-                devices.name = '未知'
-              }
-              console.log(devices)
-              console.log("发现新蓝牙设备")
-              console.log("设备ID：" + devices.deviceId)
-              console.log("设备名称：" + devices.name)
-              for (i = 0; i < temp.length; i++) {
-                if (devices.deviceId == temp[i].deviceId) {
-                  isnotexist = true
-                }
-              }
-              if (!isnotexist) {
-                temp.push(devices)
-              }
-              else {
-                temp[i - 1].RSSI = devices.RSSI
-              }//android
-            } else if (devices.devices) {
+            var exist = false
+            //Android
+            if (devices.devices) {
               var i
               devices.devices[0].advertisData = that.buf2hex(devices.devices[0].advertisData)
               console.log(devices.devices[0].advertisData)
@@ -74,45 +46,20 @@ Page({
               if (devices.devices[0].name == "") {
                 devices.devices[0].name = '未知'
               }
-              console.log(devices.devices[0])
               console.log("发现新蓝牙设备")
+              console.log(devices.devices[0])
               console.log("设备ID：" + devices.devices[0].deviceId)
               console.log("设备名称：" + devices.devices[0].name)
               for (i = 0; i < temp.length; i++) {
                 if (devices.devices[0].deviceId == temp[i].deviceId) {
-                  isnotexist = true
+                  exist = true
                 }
               }
-              if (!isnotexist) {
+              if (!exist) {
                 temp.push(devices.devices[0])
               }
-              else {
-                temp[i - 1].RSSI = devices.devices[0].RSSI
-              }//
-            } else if (devices[0]) {
-              var i
-              devices[0].advertisData = that.buf2hex(devices[0].advertisData)
-              console.log(devices[0].advertisData)
-              if (devices[0].advertisData == "") {
-                devices[0].advertisData = '空'
-              }
-              if (devices[0].name == "") {
-                devices[0].name = '未知'
-              }
-              console.log(devices[0])
-              console.log("发现新蓝牙设备")
-              console.log("设备ID：" + devices[0].deviceId)
-              console.log("设备名称：" + devices[0].name)
-              for (i = 0; i < temp.length; i++) {
-                if (devices[0].deviceId == temp[i].deviceId) {
-                  isnotexist = true
-                }
-              }
-              if (!isnotexist) {
-                temp.push(devices[0])
-              }
-              else {
-                temp[i - 1].RSSI = devices[0].RSSI
+              if (devices.devices[0].name == "HC-08"){
+                that.autoConnectTo(devices.devices[0].deviceId)
               }
             }
             that.setData({
@@ -160,7 +107,7 @@ Page({
         fail: function (res) {
           wx.showModal({
             title: '提示',
-            content: '请检查手机蓝牙是否打开',
+            content: '请检查手机蓝牙和定位是否打开',
             success: function (res) {
               that.setData({
                 isbluetoothready: false
@@ -195,29 +142,26 @@ Page({
       })
     }
   },
-  connectTO: function (e) {
+  connectTo: function(e) {
+    var deviceId
+    var that = this
+    deviceId = e.currentTarget.id
+    that.autoConnectTo(deviceId)
+  },
+  autoConnectTo: function (deviceId) {
     var that = this
     var name, advertisData
-    console.log(e.currentTarget.id)
+    console.log(deviceId)
     for (var i = 0; i < temp.length; i++) {
-      if (e.currentTarget.id == temp[i].deviceId) {
+      if (deviceId == temp[i].deviceId) {
         name = temp[i].name
         advertisData = temp[i].advertisData
       }
     }
 
     if (that.data.deviceconnected) {
-      /*
-      wx.notifyBLECharacteristicValueChange({
-        deviceId: that.data.connectedDeviceId,
-        characteristicId: characteristicId,
-        state: false,
-        success: function(res) {
-          console.log("停用notify功能")
-        }
-      })*/
       wx.closeBLEConnection({
-        deviceId: e.currentTarget.id,
+        deviceId: deviceId,
         complete: function (res) {
           console.log("断开设备")
           console.log(res)
@@ -242,7 +186,7 @@ Page({
         title: '连接蓝牙设备中...'
       })
       wx.createBLEConnection({
-        deviceId: e.currentTarget.id,
+        deviceId: deviceId,
         success: function (res) {
           wx.hideLoading()
           wx.showToast({
@@ -250,25 +194,16 @@ Page({
             icon: 'success',
             duration: 1000
           })
-          connectedDeviceId = e.currentTarget.id
+          connectedDeviceId = deviceId
           console.log("连接设备成功")
           console.log(res)
           that.setData({
             deviceconnected: true,
-            connectedDeviceId: e.currentTarget.id
+            connectedDeviceId: deviceId
           })
           wx.navigateTo({
             url: '../bluetooth/bluetooth?connectedDeviceId=' + connectedDeviceId + '&name=' + name + '&advertisData=' + advertisData
           })
-          /*
-          wx.notifyBLECharacteristicValueChange({
-            state: true, // 启用 notify 功能
-            deviceId: that.data.connectedDeviceId,
-            characteristicId: characteristicId,
-            success: function (res) {
-              console.log("启用notify")
-            }
-          })*/
         },
         fail: function (res) {
           wx.hideLoading()
@@ -288,20 +223,3 @@ Page({
     }
   },
 })
-function getNowFormatDate() {
-  var date = new Date();
-  var seperator1 = "-";
-  var seperator2 = ":";
-  var month = date.getMonth() + 1;
-  var strDate = date.getDate();
-  if (month >= 1 && month <= 9) {
-    month = "0" + month;
-  }
-  if (strDate >= 0 && strDate <= 9) {
-    strDate = "0" + strDate;
-  }
-  var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-    + " " + date.getHours() + seperator2 + date.getMinutes()
-    + seperator2 + date.getSeconds();
-  return currentdate;
-}

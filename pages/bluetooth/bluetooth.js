@@ -25,9 +25,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     var that = this
-
     util.loadWeatherData(function (data) {
       that.setData({
         city: data.data.HeWeather6[0].basic,
@@ -36,14 +34,6 @@ Page({
         lifestyle: data.data.HeWeather6[0].lifestyle,
         update: data.data.HeWeather6[0].update.loc.split(" ")[1]
       });
-    })
-    that.setData({
-      menu: [
-        { 'index': 0, 'item': '浇水', 'value': 90, 'deg': 0, 'src': "../../images/xuanzhuan.png", "button": "formSubmit" },
-        { 'index': 1, 'item': '旋转', 'value': 70, 'deg': 90, 'src': "../../images/xuanzhuan.png", "button": "formSubmit1" },
-        { 'index': 2, 'item': '施肥', 'value': 80, 'deg': 180, 'src': "../../images/xuanzhuan.png", "button": "formSubmit2" },
-        { 'index': 3, 'item': '旋转', 'value': 70, 'deg': 270, 'src': "../../images/xuanzhuan.png", "button": "formSubmit3" }
-      ]
     })
     console.log('connectedDeviceId: ' + options.connectedDeviceId)
     console.log('name: ' + options.name)
@@ -73,7 +63,7 @@ Page({
             serviceId: that.data.serviceId,
             success: function (res) {
               console.log('All device characteristics:', res.characteristics)
-              for (var i = 0; i < res.characteristics.length; i++) {
+              for (var i = 0; i < res.characteristics.length; i++){
                 if (res.characteristics[i].uuid.indexOf("FFE1") != -1) {
                   console.log('设备的characteristicsID: ' + res.characteristics[i].uuid)
                   that.setData({
@@ -81,9 +71,6 @@ Page({
                   })
                 }
               }
-              /**
-               * 
-               */
               wx.notifyBLECharacteristicValueChange({
                 deviceId: that.data.deviceId,
                 serviceId: that.data.serviceId,
@@ -105,7 +92,7 @@ Page({
           })
         }, 1500)
         /**
-         * 回调获取 设备发过来的数据
+         * 获取设备发过来的数据
          */
         wx.onBLECharacteristicValueChange(function (characteristic) {
           console.log('硬件设备的属性: ', characteristic)
@@ -145,19 +132,18 @@ Page({
     for (var i = 0; i < sendData.length; i++) {
       dataView.setUint8(i, sendData.charAt(i).charCodeAt())
     }
-    wx.writeBLECharacteristicValue({
-      deviceId: that.data.deviceId,
-      serviceId: that.data.serviceId,
-      characteristicId: that.data.chaId,
-      value: buffer,
-      success: function (res) {
-        console.log('writeBLECharacteristicValue success', res.errMsg)
-      },
-      fail: function (res) {
-        //fail
-        console.log(res)
-      }
-    })
+      wx.writeBLECharacteristicValue({
+        deviceId: that.data.deviceId,
+        serviceId: that.data.serviceId,
+        characteristicId: that.data.chaId,
+        value: buffer,
+        success: function (res) {
+          console.log('writeBLECharacteristicValue success', res.errMsg)
+        },
+        fail: function (res) {
+          console.log(res)
+        }
+      })
   },
   formSubmit1: function (e) {
     console.log('发送数据：', e.currentTarget.dataset.id);
@@ -177,7 +163,6 @@ Page({
         console.log('writeBLECharacteristicValue success', res.errMsg)
       },
       fail: function (res) {
-        //fail
         console.log(res)
       }
     })
@@ -200,7 +185,6 @@ Page({
         console.log('writeBLECharacteristicValue success', res.errMsg)
       },
       fail: function (res) {
-        //fail
         console.log(res)
       }
     })
@@ -223,60 +207,11 @@ Page({
         console.log('writeBLECharacteristicValue success', res.errMsg)
       },
       fail: function (res) {
-        //fail
         console.log(res)
       }
     })
   },
   formReset: function () {
     console.log('form发生了reset事件')
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
 })
